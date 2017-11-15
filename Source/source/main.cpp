@@ -16,16 +16,26 @@ typedef struct {
     uint8_t b[32];
 } LED;
 
-std::string menu[6]={
+typedef struct {
+    uint8_t ani[3]; // animation settings
+
+    // colors
+    uint8_t r[32];
+    uint8_t g[32];
+    uint8_t b[32];
+} LED_MCU;
+
+std::string menu[7]={
     "Set Notification RGB Hex Color",
     "Change pattern for LED",
     "Trigger Static ending",
     "Trigger Loop ending",
     "Install IPS Patch",
+    "Test LED with pattern",
     "Shutdown 3DS"
 };
 
-int selected, CMDS = 6;
+int selected, CMDS = 7;
 
 std::string paterns[4]={
     "Blink  ",
@@ -82,9 +92,9 @@ void createLED(LED* patern, std::string hexCode, bool staticEND, int selcpat)
         case 1: // Explode
             for (int i = 1; i<=31; i+=10)
             {
-                patern->r[i] = (r/32)+1 * (31-i);
-                patern->g[i] = (g/32)+1 * (31-i);
-                patern->b[i] = (b/32)+1 * (31-i);
+                patern->r[i] = r/i;
+                patern->g[i] = g/i;
+                patern->b[i] = b/i;
             }
         break;
         case 2: // Rainbow (AKA MCU bricker lol)
@@ -291,6 +301,41 @@ void writepatch(LED note)
     }
 }
 
+void ptmsysmSetInfoLedPattern(LED_MCU pattern)
+{
+    Handle serviceHandle = 0;
+    Result result = srvGetServiceHandle(&serviceHandle, "ptm:sysm");
+    if (result != 0) 
+    {
+        printf("failed to get service ptm:sysm :(");
+        return;
+    }
+
+    u32* ipc = getThreadCommandBuffer();
+    ipc[0] = 0x8010640;
+    memcpy(&ipc[1], &pattern, 0x64);
+    svcSendSyncRequest(serviceHandle);
+    svcCloseHandle(serviceHandle);
+}
+
+void test_LED(LED patern, uint8_t lp)
+{
+    LED_MCU MCU_PAT;
+
+    for (int i = 0; i<=31; i++)
+    {
+        MCU_PAT.r[i] = patern.r[i];
+        MCU_PAT.g[i] = patern.g[i];
+        MCU_PAT.b[i] = patern.b[i];
+    }
+
+    MCU_PAT.ani[0] = 0x50;
+    MCU_PAT.ani[1] = 0xFF;
+    MCU_PAT.ani[2] = lp;
+
+    ptmsysmSetInfoLedPattern(MCU_PAT);
+}
+
 // when done we want LUMA to reload so it can patch with our ips patches
 // https://www.3dbrew.org/wiki/PTMSYSM:LaunchFIRMRebootSystem
 void PTM_RebootAsync() 
@@ -420,7 +465,7 @@ int main(int argc, char **argv)
                 break;
                 case 3:
                     if (LOOPBYTE == 0xFF)
-                        LOOPBYTE = 0x20;
+                        LOOPBYTE = 0x00;
                     else
                         LOOPBYTE = 0xFF;
                     listMenu();
@@ -431,6 +476,11 @@ int main(int argc, char **argv)
                     writepatch(notification);
                 break;
                 case 5:
+                    LED test_notification;
+                    createLED(&test_notification, std::string(color_HEX), false, selectedpat);
+                    test_LED(test_notification, LOOPBYTE);
+                break;
+                case 6:
                     ptmSysmInit();
                     PTMSYSM_ShutdownAsync(0);
                     ptmSysmExit();
