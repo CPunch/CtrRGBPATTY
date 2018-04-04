@@ -1,5 +1,2 @@
 # CtrRGBPATTY
-led changer for 3ds lol
-
-
->>> YOU NEED LUMA CFW FOR THIS TO WORK
+This 3DS application allows the LED color to be changed. In order for this to work, Luma CFW (custom firmware) needs to be installed.
