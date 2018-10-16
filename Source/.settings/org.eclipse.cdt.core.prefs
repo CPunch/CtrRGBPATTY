@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1002373664/DEVKITARM/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1002373664/DEVKITARM/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1002373664/DEVKITARM/value=/opt/devkitPro/devkitARM
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1002373664/DEVKITPRO/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1002373664/DEVKITPRO/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1002373664/DEVKITPRO/value=/opt/devkitPro/
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1002373664/append=true
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1002373664/appendContributed=true
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1089705841/DEVKITARM/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1089705841/DEVKITARM/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1089705841/DEVKITARM/value=/opt/devkitPro/devkitARM
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1089705841/DEVKITPRO/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1089705841/DEVKITPRO/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1089705841/DEVKITPRO/value=/opt/devkitPro/
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1089705841/append=true
+environment/project/cdt.managedbuild.toolchain.gnu.cross.base.1089705841/appendContributed=true
